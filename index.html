@@ -31,7 +31,7 @@
             margin-top: 10px;
             margin-bottom: 5px;
         }
-        input[type="url"] {
+        input[type="url"], input[type="text"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -64,17 +64,16 @@
             border-radius: 8px;
         }
     </style>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 
-    <h1>API Bypass</h1>
+    <h1>Speed Bypass</h1>
 
-    <form action="" method="get">
+    <form id="apiForm">
         <label for="link">Enter Link</label>
         <input type="url" id="link" name="link" placeholder="Paste your link here" required>
 
-        <label for="api">Select API</label>
+        <label for="api">Select Bypass</label>
         <select id="api" name="api" required>
             <option value="fluxus">Fluxus</option>
             <option value="linkvertise">Linkvertise</option>
@@ -86,31 +85,41 @@
             <option value="codex">Codex</option>
         </select>
 
-        <label for="captcha">Captcha Verification</label>
-        <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+        <label for="randomNumber">Enter the number shown below:</label>
+        <div id="randomNumberDisplay" class="captcha" style="font-weight: bold; font-size: 18px;"></div>
+        <input type="text" id="userInput" placeholder="Enter the number" required>
 
         <input type="submit" value="Submit">
     </form>
 
     <div class="banner">
-        <h2>Banner</h2>
-        <img src="https://via.placeholder.com/500x150" alt="Banner Image">
+        <h2>Hosting By : BONK HUB</h2>
+        <img src="https://media.discordapp.net/attachments/1017383423918215229/1267360241381671035/standard_5.gif?ex=6700d533&is=66ff83b3&hm=61d3ab97fd06ebec9b9ef730e7f4d8709afdeb5defc9058011e9ac40f9672d9c&" alt="Banner Image">
     </div>
 
     <script>
-        document.querySelector('form').addEventListener('submit', function (event) {
+        // Generate a random number and display it
+        function generateRandomNumber() {
+            return Math.floor(1000 + Math.random() * 9000); // Random number between 1000 and 9999
+        }
+
+        const randomNumber = generateRandomNumber();
+        document.getElementById('randomNumberDisplay').innerText = randomNumber;
+
+        // Handle form submission
+        document.getElementById('apiForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const link = document.getElementById('link').value;
             const api = document.getElementById('api').value;
-            const captchaResponse = grecaptcha.getResponse();
+            const userInput = document.getElementById('userInput').value;
 
-            if (!captchaResponse) {
-                alert("Please complete the CAPTCHA.");
-                return;
+            // Check if the user input matches the random number
+            if (userInput == randomNumber) {
+                const apiUrl = `https://api.robloxexecutorth.workers.dev/${api}?url=${encodeURIComponent(link)}`;
+                window.open(apiUrl, '_blank');
+            } else {
+                alert("Incorrect number. Please try again.");
             }
-
-            const apiUrl = `https://api.robloxexecutorth.workers.dev/${api}?url=${encodeURIComponent(link)}`;
-            window.open(apiUrl, '_blank');
         });
     </script>
 
