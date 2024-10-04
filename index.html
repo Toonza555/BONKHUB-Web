@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Bypass</title>
+    <title>Speed Bypass</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,15 +63,6 @@
             width: 100%;
             border-radius: 8px;
         }
-        #result {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 500px;
-        }
     </style>
 </head>
 <body>
@@ -101,8 +92,6 @@
         <input type="submit" value="Submit">
     </form>
 
-    <div id="result" style="display: none;"></div>
-
     <div class="banner">
         <h2>Hosting By : BONK HUB</h2>
         <img src="https://media.discordapp.net/attachments/1017383423918215229/1267360241381671035/standard_5.gif?ex=6700d533&is=66ff83b3&hm=61d3ab97fd06ebec9b9ef730e7f4d8709afdeb5defc9058011e9ac40f9672d9c&" alt="Banner Image">
@@ -118,7 +107,7 @@
         document.getElementById('randomNumberDisplay').innerText = randomNumber;
 
         // Handle form submission
-        document.getElementById('apiForm').addEventListener('submit', async function (event) {
+        document.getElementById('apiForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const link = document.getElementById('link').value;
             const api = document.getElementById('api').value;
@@ -127,22 +116,7 @@
             // Check if the user input matches the random number
             if (userInput == randomNumber) {
                 const apiUrl = `https://api.robloxexecutorth.workers.dev/${api}?url=${encodeURIComponent(link)}`;
-
-                try {
-                    const response = await fetch(apiUrl);
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    const result = await response.text();
-
-                    // Display the result
-                    const resultDiv = document.getElementById('result');
-                    resultDiv.style.display = 'block';
-                    resultDiv.innerHTML = `<h3>API Response</h3><p>${result}</p>`;
-                } catch (error) {
-                    alert('Failed to fetch the API. Please try again.');
-                    console.error('Error fetching API:', error);
-                }
+                window.open(apiUrl, '_blank');
             } else {
                 alert("Incorrect number. Please try again.");
             }
