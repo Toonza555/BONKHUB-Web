@@ -3,49 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get Key</title>
+    <title>API Bypass</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background-color: #f4f4f4;
             margin: 0;
-            background-color: #f0f0f0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .container {
-            background-color: white;
+        h1 {
+            margin-top: 20px;
+        }
+        form {
+            background-color: #fff;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
         }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+        input[type="url"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
             color: white;
+            padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
         }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .captcha {
+            margin: 15px 0;
+        }
+        .banner img {
+            width: 100%;
+            border-radius: 8px;
+        }
     </style>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-    <div class="container">
-        <h2>Get Your Key</h2>
-        <button id="getKeyButton">Get Key</button>
-        <p id="keyOutput"></p>
+
+    <h1>API Bypass</h1>
+
+    <form action="" method="get">
+        <label for="link">Enter Link</label>
+        <input type="url" id="link" name="link" placeholder="Paste your link here" required>
+
+        <label for="api">Select API</label>
+        <select id="api" name="api" required>
+            <option value="fluxus">Fluxus</option>
+            <option value="linkvertise">Linkvertise</option>
+            <option value="rekonise">Rekonise</option>
+            <option value="delta">Delta</option>
+            <option value="arceusx">Arceus X</option>
+            <option value="workink">Work.ink</option>
+            <option value="mediafire">Mediafire</option>
+            <option value="codex">Codex</option>
+        </select>
+
+        <label for="captcha">Captcha Verification</label>
+        <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <div class="banner">
+        <h2>Banner</h2>
+        <img src="https://via.placeholder.com/500x150" alt="Banner Image">
     </div>
 
     <script>
-        document.getElementById('getKeyButton').addEventListener('click', function() {
-            // สุ่ม Key ตัวอย่าง (จะใช้ระบบ API/Server จริงแทน)
-            const randomKey = 'KEY-' + Math.random().toString(36).substr(2, 8).toUpperCase();
-            document.getElementById('keyOutput').innerText = 'Your Key: ' + randomKey;
+        document.querySelector('form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const link = document.getElementById('link').value;
+            const api = document.getElementById('api').value;
+            const captchaResponse = grecaptcha.getResponse();
 
-            // ยิงข้อมูลไปยัง Database (ใช้ Fetch API/ Axios ในกรณีที่เชื่อม Backend)
+            if (!captchaResponse) {
+                alert("Please complete the CAPTCHA.");
+                return;
+            }
+
+            const apiUrl = `https://api.robloxexecutorth.workers.dev/${api}?url=${encodeURIComponent(link)}`;
+            window.open(apiUrl, '_blank');
         });
     </script>
+
 </body>
 </html>
